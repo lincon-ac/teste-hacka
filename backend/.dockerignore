@@ -1,0 +1,54 @@
+# .NET Core
+*.swp
+*.~*
+*.user
+*.suo
+.vs/
+[Bb]in/
+[Oo]bj/
+_UpgradeReport_Files/
+[Pp]ackages/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio files
+.vs/
+.vscode/
+*.ncrunchsolution
+*.ncrunchproject
+*.userprefs
+*.usertasks
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Misc
+*.md
+LICENSE
+*.log
+tmp/
+temp/
