@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  #DOCKER_IMAGE: ${{ secrets.linc0n }}/app-backend
+  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/app-backend
   K8S_NAMESPACE: production
 
 jobs:
@@ -22,26 +22,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-     # - name: Set up Docker Buildx
-     #   uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-     # - name: Login to Docker Hub
-     #   uses: docker/login-action@v3
-     #   with:
-     #     username: ${{ secrets.DOCKER_USERNAME }}
-     #     password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
-     # - name: Build and push Docker image
-     #   uses: docker/build-push-action@v5
-     #   with:
-     #     context: ./backend
-      #    file: ./backend/Dockerfile
-       #   push: true
-        #  tags: |
-         #   ${{ env.DOCKER_IMAGE }}:latest
-          #  ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
-         # cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache
-         # cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache,mode=max
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:latest
+            ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}:buildcache,mode=max
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
@@ -61,7 +61,7 @@ jobs:
       - name: Update Kubernetes manifests
         run: |
           cd infra/k8s
-         # sed -i "s|image: backend-api:latest|image: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}|g" deployment.yaml
+          sed -i "s|image: backend-api:latest|image: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}|g" deployment.yaml
 
       - name: Deploy to Kubernetes
         run: |
